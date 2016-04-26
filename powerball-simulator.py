@@ -6,7 +6,6 @@ from collections import Counter, defaultdict
 
 
 class Powerball:
-
     print ""
     print "The Powerball Simulator"
     print "======================="
@@ -17,7 +16,7 @@ class Powerball:
     # balls = tuple(range(69))
     # powerballs = tuple(range(26))
 
-    # def match_lists(list1, list2):s
+    # def match_lists(list1, list2):
     #     """Find the dupes or number of matching items in each list"""
     #     set1 = set(list1)
     #     set2 = set(list2)
@@ -33,7 +32,7 @@ class Powerball:
         tot_num_emps = 0
         while tot_num_emps <= 0:
             try:
-                tot_num_emps = input("Enter the number of employees to play: ")
+                tot_num_emps = input("Enter the number of Greenphire employees to play: ")
                 print ""
             except:
                 print "\nEnter a number greater than zero. Please try again..."
@@ -45,8 +44,38 @@ class Powerball:
 
         for employee in range(employees):
             favorite_numbers = []
-            first = raw_input("\nEnter your first name: ")
-            last = raw_input("Enter your last name: ")
+
+            is_valid = False
+            while not is_valid:
+                try:
+                    first = raw_input("\nEnter your first name: ")
+                    first_check = int(first)
+                    if isinstance(first_check, int):
+                        print "The first name cannot be an integer"
+                        is_valid = False
+                        continue
+                    else:
+                        is_valid = True
+                except:
+                    # When string is parsed to int, it throws exeption.
+                    # Just ignore by setting the boolean
+                    is_valid = True
+
+            is_valid = False
+            while not is_valid:
+                try:
+                    last = raw_input("Enter your last name: ")
+                    last_check = int(last)
+                    if isinstance(last_check, int):
+                        print "The last name cannot be an integer"
+                        is_valid = False
+                        continue
+                    else:
+                        is_valid = True
+                except:
+                    # When string is parsed to int, it throws exeption.
+                    # Just ignore by setting the boolean
+                    is_valid = True
 
             selected = False
             while not selected:
@@ -127,7 +156,7 @@ class Powerball:
 
         return employees_numbers
 
-    def freq_of_numbers(self, items):
+    def freq_of_numbers_in_dict(self, items):
         d = defaultdict(int)
         for item in items:
             d[item] += 1
@@ -136,16 +165,19 @@ class Powerball:
     def unique_dupes_count(self, items):
         return [item for item, count in Counter(items).items() if count >= 1]
 
-    def high_dict_elements(self, d):
-        return dict((k, v) for k, v in d.items() if v > 1)
+    def high_dict_elements_values(self, d):
+        high_dict = dict((k, v) for k, v in d.items() if v > 1)
+        if not high_dict:
+            return d
+        return high_dict
 
 
 if __name__ == "__main__":
     powerball = Powerball()
     picks = powerball.employee_picks()
 
-    d = powerball.freq_of_numbers(Powerball.track_favorite_numbers)
-    dict_elements = powerball.high_dict_elements(d)
+    d = powerball.freq_of_numbers_in_dict(Powerball.track_favorite_numbers)
+    dict_elements = powerball.high_dict_elements_values(d)
     duplicates_count = powerball.unique_dupes_count(dict_elements.values())
     random.shuffle(duplicates_count)
     tied = random.choice(duplicates_count)
