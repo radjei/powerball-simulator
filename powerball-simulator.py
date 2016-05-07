@@ -1,4 +1,4 @@
-# Author: Ross A.
+# Author: Ross Adjei.
 # The Powerball Simulator"
 
 import random
